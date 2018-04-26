@@ -1,0 +1,38 @@
+/* Solution without HashSet */
+
+public int uniqueMorseRepresentations(String[] words) {
+        String[] Code_Word =  new String[words.length];
+        int[] IsDuplicate = new int[words.length];
+        int diff_count = 0;
+        String[] table = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        for(int i = 0; i < words.length; i++){
+            IsDuplicate[i] = 1 ;
+            String CodeStr = "";
+            for(char s : words[i].toCharArray()){
+                CodeStr = CodeStr + table[s - 'a'];
+            }
+            Code_Word[i] = CodeStr;
+        }
+        for(int i = 0; i < Code_Word.length; i++){
+            for(int j = i + 1; j < Code_Word.length; j ++){
+                if(Code_Word[j].equals(Code_Word[i])){
+                    IsDuplicate[j] = 0;
+                }
+            }
+            diff_count += IsDuplicate[i];
+        }
+        return diff_count;
+    }
+   /* Solution without HashSet and StringBuilder */ 
+  public int uniqueMorseRepresentations(String[] words) {
+        HashSet<String> hashSet = new HashSet<String>(); 
+        String[] table = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        for(String s : words){
+            StringBuilder sb = new StringBuilder();
+            for(char c : s.toCharArray()){
+                sb.append(table[c - 'a']);
+            }
+            hashSet.add(sb.toString());
+        }
+        return hashSet.size();
+    }
