@@ -1,0 +1,5 @@
+# Write your MySQL query statement below
+# notice that DATEDIFF is different from dateA-dateB = n
+
+select Id  from weather a
+where Temperature > (select Temperature from weather b where DATEDIFF(a.RecordDate, b.RecordDate)=1);
