@@ -1,0 +1,35 @@
+/* Stack solution*/
+public boolean isValid(String s) {
+        char[] paren = s.toCharArray();
+        Stack<Character> judge = new Stack();
+        for(char item : paren){
+            if((item == '(') || (item == '[') || (item == '{')){
+                judge.push(item);
+            }
+            else{
+                if(judge.empty()){
+                    return false;
+                }
+                else{
+                    if(match(judge.peek(),item)){
+                        judge.pop();
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }
+        }
+        if(judge.empty()){
+            return true;
+        }
+        return false;
+    }
+    public boolean match(char a, char b){
+        if((a == '(' && b == ')') || (a == '[' && b == ']') || (a == '{' && b == '}')){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
