@@ -1,0 +1,30 @@
+class MinStack {
+    private Stack<Integer> elementstack = new Stack();
+    private Stack<Integer> supportstack = new Stack();
+    /** initialize your data structure here. */
+    public MinStack() {
+
+    }
+    
+    public void push(int x) {
+        if(supportstack.empty() || (x <= supportstack.peek())){
+            supportstack.push(x);
+        }
+        elementstack.push(x);
+    }
+    
+    public void pop() {
+        if(elementstack.peek().equals(supportstack.peek())){
+            supportstack.pop();
+        }
+        elementstack.pop();
+    }
+    
+    public int top() {
+        return elementstack.peek();
+    }
+    
+    public int getMin() {
+        return supportstack.peek();
+    }
+}
