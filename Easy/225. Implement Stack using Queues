@@ -1,0 +1,33 @@
+class MyStack {
+    Queue<Integer> element_queue = new LinkedList<Integer>();
+    /** Initialize your data structure here. */
+    public MyStack() {
+        
+    }
+    
+    /** Push element x onto stack. */
+    public void push(int x) {
+        element_queue.add(x);
+        int count = 0;
+        while(count < element_queue.size() - 1){
+            element_queue.add(element_queue.remove());
+            count ++;
+        }
+        
+    }
+    
+    /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        return element_queue.remove();
+    }
+    
+    /** Get the top element. */
+    public int top() {
+        return element_queue.peek();
+    }
+    
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return element_queue.isEmpty();
+    }
+}
