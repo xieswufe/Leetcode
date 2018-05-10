@@ -1,0 +1,91 @@
+/* use two stacks, one of them to recieve the value*/
+class MyQueue {
+    
+    Stack<Integer> element_stack;
+    Stack<Integer> support_stack;
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        element_stack = new Stack<Integer>();
+        support_stack = new Stack<Integer>();
+    }
+    
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        element_stack.push(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        while(!element_stack.empty()){
+            support_stack.push(element_stack.pop());
+        }
+       int i = support_stack.pop();
+        while(!support_stack.empty()){
+            element_stack.push(support_stack.pop());
+        }
+        return i;
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        while(!element_stack.empty()){
+            support_stack.push(element_stack.pop());
+        }
+        int i = support_stack.peek();
+        while(!support_stack.empty()){
+            element_stack.push(support_stack.pop());
+        }
+        return i;
+        
+    }
+    
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return element_stack.empty();
+    }
+}
+
+/* in fact, i can use one stack to serve as the real stack. which means to execute the functions of a stack. just to push element in to it
+.then use another stack to recieve the reverse order of the stack. which means to peek() and pop(); */
+class MyQueue {
+    
+    Stack<Integer> element_stack;
+    Stack<Integer> support_stack;
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        element_stack = new Stack<Integer>();
+        support_stack = new Stack<Integer>();
+    }
+    
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        element_stack.push(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        if(support_stack.empty()){
+            while(!element_stack.empty()){
+                support_stack.push(element_stack.pop());
+            }
+        }
+        return support_stack.pop();
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        if(support_stack.empty()){
+            while(!element_stack.empty()){
+                support_stack.push(element_stack.pop());
+            }
+        }
+        return support_stack.peek();
+        
+    }
+    
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return element_stack.empty() && support_stack.empty();
+    }
+}
+
