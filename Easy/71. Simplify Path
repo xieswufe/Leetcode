@@ -1,0 +1,30 @@
+/* used regular expression and stack to solve this problem*/
+public String simplifyPath(String path) {
+       String pathern = "/+";
+        String replace = "/";
+        path = path.replaceAll(pathern,replace);
+        String[] path_list = path.split("/");
+        Stack<String> element_path = new Stack<String>();
+        for(int i = 1; i < path_list.length; i++){
+            if(path_list[i].equals("..")){
+                if(element_path.empty()){
+                    continue;
+                }
+                else{
+                    element_path.pop();
+                }
+            }
+            else{
+                if(!path_list[i].equals(".")){
+                    element_path.push(path_list[i]);
+                }
+            }
+        }
+        if(element_path.empty()) return "/";
+        StringBuilder sb =  new StringBuilder();
+        while(!element_path.empty()){
+            sb.insert(0,"/" + element_path.pop());
+        }
+        return sb.toString();
+    }
+ 
