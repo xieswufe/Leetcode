@@ -1,0 +1,56 @@
+/* used so many if statements to complete this task; I think I can use more words to refer to some numbers. So that I can save some time*/
+
+public String intToRoman(int num) {
+        int[] count = new int[13];
+        count[0] = num / 1000;
+        int remain = num % 1000;
+        String[] roman = new String[]{"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        if(remain >= 900){
+            count[1] ++;
+            remain = remain - 900;
+        }
+        else if(remain >= 500){
+            count[2] ++;
+            remain = remain - 500;
+        }
+        else if(remain >= 400){
+            count[3] ++;
+            remain = remain - 400;
+            }
+        count[4] = remain / 100;
+        remain = remain % 100;
+        if(remain >= 90){
+            count[5] ++;
+            remain = remain - 90;
+        }
+        else if(remain >= 50){
+            count[6] ++;
+            remain = remain - 50;
+        }
+        else if(remain >= 40){
+            count[7] ++;
+            remain = remain - 40;
+            }
+        count[8] = remain / 10;
+        remain = remain % 10;
+         if(remain == 9){
+            count[9] ++;
+            remain = remain - 9;
+        }
+        else if(remain >= 5){
+            count[10] ++;
+            remain = remain - 5;
+        }
+        else if(remain == 4){
+            count[11] ++;
+            remain = remain - 4;
+            }
+        count[12] = remain;
+        StringBuilder sb = new StringBuilder("");
+        for(int i = 0; i<13; i++){
+            for(int j = 0; j<count[i]; j++){
+                sb.append(roman[i]);
+            }
+        }
+        return sb.toString();
+    }
