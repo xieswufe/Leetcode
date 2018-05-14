@@ -1,0 +1,42 @@
+// At first time, I want to create a pointer to define the position to insert the value which should be removed from this array. And use the
+// other pointer to detect the position those variables
+public int removeElement(int[] nums, int val) {
+        int count = 0;
+        int dupli = 0;
+        for(int i = 0 ; i<nums.length - count; i++){
+            if(nums[i] == val){
+                if(i == nums.length - 1) {
+                    return nums.length - 1;
+                }
+                for(int j = nums.length - count -1; j >-1; j --){
+                    if(j == i){
+                        return i;
+                    }
+                    if(nums[j] != val){
+                        int temp = nums[i];
+                        nums[i] = nums[j];
+                        nums[j] = temp;
+                        break;}
+                    else{
+                        count++;
+                    }
+                }
+                count++;
+            }
+
+        }
+
+        return (nums.length - count)<0?0:(nums.length - count);
+    }
+    
+    // a simplified sloution
+        public int removeElement(int[] nums, int val) {
+        int lef = 0;
+        for(int i=0; i< nums.length; i++){
+            if(nums[i] != val){
+                nums[lef] = nums[i];
+                lef++;
+            }
+        }
+        return lef;
+}
