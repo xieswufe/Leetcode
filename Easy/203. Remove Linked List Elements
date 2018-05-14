@@ -1,0 +1,29 @@
+/* custom method to remove element from a linked list*/
+public ListNode removeElements(ListNode head, int val) {
+        if(head == null){
+            return null;
+        }
+        while(head.val == val){
+            if(head.next == null){
+                return null;
+            }
+            else{
+            head = head.next;}
+        }
+        
+        ListNode iterator = head;
+        while(iterator.next != null){
+            while(iterator.next.val == val && iterator.next.next != null){
+                iterator.next = iterator.next.next;
+            }
+            if(iterator.next.next == null && iterator.next.val == val){
+                iterator.next = null;
+                break;
+            }
+            iterator = iterator.next;
+        }
+        return head;
+        
+    }
+    
+    /* a easy recursive method to remove the element*/
