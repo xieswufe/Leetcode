@@ -1,0 +1,12 @@
+/* Easy problem*/
+public List<Integer> getRow(int rowIndex) {
+        List<Integer> Ite = new ArrayList<Integer>();
+        for(int i = 1; i<= rowIndex+1; i++){
+            Ite.add(0,1);
+            for(int j = 1; j < i - 1; j++){
+                Ite.set(j,Ite.get(j+1)+Ite.get(j));
+            }
+            
+        }
+        return Ite;
+    }
