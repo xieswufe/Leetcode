@@ -1,0 +1,43 @@
+/*  The time complexity of the solution are O(n^2) The space complexity of the solution is O(n) */
+public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> Pac = new ArrayList<List<Integer>>();
+        List<Integer> PacOne = new ArrayList<Integer>();
+        PacOne.add(1);
+        List<Integer> PacTwo = new ArrayList<Integer>();
+        PacTwo.add(1);
+        PacTwo.add(1);
+        if(numRows == 0){
+            return Pac;
+        }
+        Pac.add(PacOne);
+        if(numRows == 1){
+            return Pac;
+        }
+        Pac.add(PacTwo);
+        
+        for(int i = 3; i <= numRows; i++){
+            List<Integer> PacIte = new ArrayList<Integer>();
+            List<Integer> PacOld = Pac.get(i-2);
+            PacIte.add(1);
+            for(int j = 2; j < i ; j++){
+                PacIte.add(PacOld.get(j-2) + PacOld.get(j-1));
+            }
+            PacIte.add(1);
+            Pac.add(PacIte);
+        }
+        return Pac;
+    }
+    
+  /* I did some improvement to codes*/
+  public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> Pac = new ArrayList<List<Integer>>();
+        List<Integer> Ite = new ArrayList<Integer>();
+        for(int i = 1 ; i <= numRows; i++){
+            Ite.add(0,1);
+            for(int j = 1; j < i - 1; j++){
+                Ite.set(j,Ite.get(j)+Ite.get(j+1));
+            }
+            Pac.add(new ArrayList<Integer>(Ite));
+        }
+        return Pac;
+}
