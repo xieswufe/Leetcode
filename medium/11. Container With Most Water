@@ -1,0 +1,21 @@
+/* Since the volume of container is decided by the shortest number, so we can set two pointers, one is at the beigining, and the other is 
+at the end of the array. Each time, we can move the pointer whose number is lower that the other*/
+
+public int maxArea(int[] height) {
+     int left = 0;
+     int right = height.length - 1;
+     int maxRes = Math.min(height[right],height[left]) * (right-left);
+     while(right > left){
+         int rightarea = Math.min(height[right-1] , height[left]) * (right-1-left);
+         int leftarea = Math.min(height[right], height[left+1]) * (right-1-left);
+         if(height[right] > height[left]){
+             maxRes = Math.max(maxRes,leftarea);
+             left ++;
+         }
+         else{
+             maxRes = Math.max(maxRes,rightarea);
+             right--;
+         }
+     }
+    return maxRes;
+    }
