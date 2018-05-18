@@ -1,0 +1,17 @@
+/*  convert the int array to linked list by using the value as pointer which points to the index. 
+Time complexity:O(n) Space complexity:O(1) */
+public int findDuplicate(int[] nums) {
+        int hare = 0;
+        int tortoise = 0;
+        hare = nums[nums[hare]];
+        tortoise = nums[tortoise];
+        while(hare != tortoise){
+            hare = nums[nums[hare]];
+            tortoise = nums[tortoise];}
+        hare = 0;
+        while(hare != tortoise){
+              hare = nums[hare];
+              tortoise = nums[tortoise];
+                }
+                return hare;     
+    }
