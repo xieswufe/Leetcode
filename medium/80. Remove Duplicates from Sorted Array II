@@ -1,0 +1,21 @@
+/* It is a two-pointer problem. In this problem, I used one pointer named j to point out the element that should be replaced. Used 
+the other pointer named i as a iterator to read the value of the nums array; and I also use a variable to count the duplicated number
+.if the count is greater than one time, then the value pointed by j will not be replaced by the same value*/
+public int removeDuplicates(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        int j = 0;
+        int count = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != nums[j]){
+                nums[++j] = nums[i];
+                count = 0;
+            }
+            else if(count == 0 && i > j){
+                nums[++j] = nums[i];
+                count++;
+            }
+        }
+        return j+1;
+    }
