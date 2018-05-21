@@ -1,0 +1,27 @@
+public String countAndSay(int n) {
+       if(n == 0){
+            return "";
+        }
+        String res = "1";
+        for(int i = 1; i < n; i++){
+            char[] ana = res.toCharArray();
+            StringBuilder sb = new StringBuilder("");
+            int count = 0;
+            char num = ana[0];
+            for(int j = 0; j < ana.length; j++){
+                if(ana[j] != num){
+                    sb.append((char)(count+48)).append(num);
+                    num = ana[j];
+                    count = 1;
+                }
+                else{
+                    count++;
+                }
+
+            }
+            sb.append((char)(count+48)).append(num);
+            res = sb.toString();
+
+        }
+        return res;
+    }
