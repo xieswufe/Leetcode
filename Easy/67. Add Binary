@@ -1,0 +1,27 @@
+class Solution {
+    public String addBinary(String a, String b) {
+        int carry = 0;
+        int sum = 0;
+        int position = 0;
+        char[] a_res = a.toCharArray();
+        char[] b_res = b.toCharArray();
+        int all = Math.max(a_res.length,b_res.length);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 1; i <= all; i++){
+           if(a_res.length - i >= 0){
+               sum += (int)a_res[a_res.length - i] - 48;
+           }
+           if(b_res.length - i >= 0){
+               sum += (int)b_res[b_res.length - i] - 48;
+           }
+           position = sum % 2;
+           sum = sum / 2;
+           sb.insert(0,(char)(position + 48));
+        }
+        if(sum == 1){
+            sb.insert(0,'1');
+        }
+        return sb.toString();
+    }
+    
+}
