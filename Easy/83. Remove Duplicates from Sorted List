@@ -1,0 +1,13 @@
+public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){return head;}
+        ListNode Ite = head;
+        while(Ite.next != null){
+            if(Ite.val == Ite.next.val){
+                Ite.next = Ite.next.next;
+            }
+            else{
+                Ite = Ite.next;
+            }
+        }
+        return head;
+    }
