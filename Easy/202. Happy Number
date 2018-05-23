@@ -1,0 +1,19 @@
+// Time Complexity: O(1) Space Complexity O(1) 
+public boolean isHappy(int n) {
+        int fast = getAnswer(getAnswer(n));
+        int slow = getAnswer(n);
+        while(fast != slow){
+            fast = getAnswer(getAnswer(fast));
+            slow = getAnswer(slow);
+        }
+        return fast == 1;
+    
+    }
+    public int getAnswer(int n){
+        int sum = 0;
+        while(n >= 10){
+            sum += (n%10) * (n%10);
+            n = n /10;
+        }
+        return sum + n*n;
+    }
