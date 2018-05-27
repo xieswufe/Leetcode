@@ -1,0 +1,24 @@
+/* Time Complexity O(n^2)  Square Complexity O(n) */
+
+
+class Solution {
+    public int firstUniqChar(String s) {
+        if(s.equals("")){return -1;}
+        int[] Alpha = new int[26];
+        int[] Order = new int[26];
+        char[] total = s.toCharArray();
+        int index = 0;
+        int dupli = 0;
+        for(int i = 0; i < total.length; i++){
+                Alpha[(int)total[i] - 97] += 1;
+                Order[(int)total[i] - 97] = total.length - i;
+            }
+        for(int i = 0; i < Alpha.length; i++){
+            if(Alpha[i] == 1){
+                index = Math.max(index,Order[i]);
+                dupli = 1;
+            }
+        }
+        return dupli == 0?-1:total.length - index;
+        }
+    }
