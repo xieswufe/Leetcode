@@ -1,0 +1,36 @@
+#Used queue to save the data first , and them invert the binary tree, but it seems too complex,I need to simplify it.One advantage of this
+solution is that it can control the size of input data to prevent it from overflowing the whole application,it is more robust#
+ public TreeNode invertTree(TreeNode root) {
+        Queue st = new LinkedList<TreeNode>();
+        Inorder(root,st);
+        while(!st.isEmpty()){
+            TreeNode cur = (TreeNode)st.poll();
+            TreeNode temp = cur.left;
+            cur.left = cur.right;
+            cur.right = temp;
+        }
+        return root;
+        
+    }
+    public Queue<TreeNode> Inorder(TreeNode node,Queue<TreeNode> st){
+        if(node != null){
+            Inorder(node.left,st);
+            st.offer(node);
+            Inorder(node.right,st);
+        }
+        return st;
+    }
+    
+    #recursive method. The time complexity of this metod is O(n), so is the Space complexity#
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){return null;}
+        invertTree(root.left);
+        invertTree(root.right);
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        return root;
+        
+    }
+ 
+ 
