@@ -1,0 +1,35 @@
+# used a queue to implement level travesal or BFS. time complexity is O(n), and Space complexity is O(n) too#
+public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null){
+            return true;
+        }
+        else if(p ==null || q == null){
+            return false;
+        }
+        Queue<TreeNode> p_level = new LinkedList<TreeNode>();
+        Queue<TreeNode> q_level = new LinkedList<TreeNode>();
+        p_level.offer(p);
+        q_level.offer(q);
+        while(! p_level.isEmpty()){
+            TreeNode tr_p = p_level.poll();
+            TreeNode tr_q = q_level.poll();
+            if(tr_p.val != tr_q.val){
+                return false;
+            }
+            if(tr_p.left != null && tr_q.left != null){
+                p_level.offer(tr_p.left);
+                q_level.offer(tr_q.left);
+            }
+            else if(tr_p.left != tr_q.left){
+                return false;
+            }
+            if(tr_p.right != null && tr_q.right != null){
+                p_level.offer(tr_p.right);
+                q_level.offer(tr_q.right);
+            }
+            else if(tr_p.right != tr_q.right){
+                return false;
+            }
+        }
+        return true;
+    }
