@@ -1,0 +1,57 @@
+// Sometimes the medium problem may be easier than the easy problem
+// The problem is a custon binary search problem, we can use binary search to find the left bounder and the right bounder of the target
+// I used binary search to find the left bounder, and used while loop to find the right bounder. However, I noticed that the
+// time complexity of this method, in the worst condition, will be O(n). Therefore, it is not a good method.
+// Time Complexity(O(log(n))),Extra Space Complexity(O(1))
+public int[] searchRange(int[] nums, int target) {
+        if(nums.length == 0){return new int[]{-1,-1};}
+        int[] res = new int[2];
+        res[0] = findLeftBounder(nums,target);
+        res[1] = findRightBounder(nums,target,0,nums.length - 1);
+        return res;
+    }
+    
+    public int findLeftBounder(int[] nums, int target){
+        int start = 0;
+        int end = nums.length - 1;
+        int mid;
+        while(start + 1 < end){
+            mid = start + (end - start) / 2;
+            if(nums[mid] >= target){
+                end = mid;
+            }
+            else{
+                start = mid;
+            }
+        }
+        if(nums[start] == target){
+            return start;
+        }
+        else if(nums[end] == target){
+            return end;
+        }
+        else{
+            return -1;
+        }
+    }
+    
+    public int findRightBounder(int[] nums, int target, int start, int end){
+        if(start + 1 >= end){
+            if(nums[end] == target){
+                return end;
+            }
+            else if(nums[start] ==  target){
+                return start;
+            }
+            else{
+                return -1;
+            }
+        } 
+        int mid = start + (end - start) / 2;
+        if(nums[mid] <= target){
+            return findRightBounder(nums,target,mid,end);
+        }
+        else{
+            return findRightBounder(nums,target,start,mid);
+        }
+    }
