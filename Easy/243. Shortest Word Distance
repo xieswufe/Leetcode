@@ -1,0 +1,23 @@
+/* A simple method used two arrays to record the index of each word, but it is still too complex. In the worse condition, the time 
+complexity will be O(n^2), so it is better to use two pointers */
+
+public int shortestDistance(String[] words, String word1, String word2) {
+        ArrayList<Integer> wd1_ar = new ArrayList<Integer>();
+        ArrayList<Integer> wd2_ar = new ArrayList<Integer>();
+        for(int i = 0; i < words.length; i++){
+            if(words[i].equals(word1)){
+                wd1_ar.add(i);
+            }
+            if(words[i].equals(word2)){
+                wd2_ar.add(i);
+            }
+        }
+        int minDistance = words.length;
+        for(int item : wd1_ar){
+            for(int dis : wd2_ar){
+                minDistance = Math.min(minDistance, Math.abs(item - dis));
+            }
+        }
+        return minDistance;
+        
+    }
