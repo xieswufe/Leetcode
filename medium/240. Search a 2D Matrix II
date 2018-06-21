@@ -1,0 +1,83 @@
+// Time Complexity: O(nlogn) 
+public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
+        for(int n = 0; n < matrix.length; n++){
+            int start = 0;
+            int end = matrix[n].length - 1;
+            int mid;
+            while(start + 1 < end){
+                mid = start + (end - start) / 2;
+                if(matrix[n][mid] == target){
+                    return true;
+                }
+                else if(matrix[n][mid] > target){
+                    end = mid;
+                }
+                else{
+                    start = mid;
+                }
+            }
+            if(matrix[n][start] == target || matrix[n][end] == target){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Divide and Conquer Method(Recursive)
+    public boolean searchMatrix(int[][] matrix, int target) {
+        //Divide and Conquer Method
+        //Write a recursive method
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
+         return searchDivMatrix(matrix, new int[]{0,0}, new int[]{matrix.length - 1,matrix[0].length - 1},target);
+    }
+    public boolean searchDivMatrix(int[][] matrix, int[] upperLeft, int[] lowerRight, int target){
+        // According to the control method of 2 dimesion in JAVA, the arrays to indicate the point of area can be named as upperleft and     lowerright
+        //Examine the bounder of the sub matrix first
+        if(upperLeft[0] > lowerRight[0] || upperLeft[1] > lowerRight[1] || lowerRight[0] > matrix.length - 1  || lowerRight[1] > matrix[0].length - 1){
+            return false;
+        }
+        //Examine the value of the matrix
+        if(upperLeft[0] == lowerRight[0] && upperLeft[1] == lowerRight[1]){
+            return matrix[upperLeft[0]][upperLeft[1]] == target;
+        }
+        int centerRow = (upperLeft[0] + lowerRight[0]) >> 1;
+        int centerCol = (upperLeft[1] + lowerRight[1]) >> 1;
+        int diff = matrix[centerRow][centerCol] - target;
+        if(diff > 0){
+            return searchDivMatrix(matrix,upperLeft, new int[]{centerRow,centerCol}, target) || searchDivMatrix(matrix, new int[]{centerRow + 1, upperLeft[1]}, new int[]{lowerRight[0], centerCol}, target) || searchDivMatrix(matrix, new int[]{upperLeft[0],centerCol + 1}, new int[]{centerRow, lowerRight[1]},target);
+        }
+        else if(diff < 0){
+            return searchDivMatrix(matrix, new int[]{centerRow + 1, centerCol + 1}, lowerRight,target) || searchDivMatrix(matrix, new int[]{upperLeft[0], centerCol + 1}, new int[]{centerRow, lowerRight[1]},target) || searchDivMatrix(matrix, new int[]{centerRow + 1, upperLeft[1]}, new int[]{lowerRight[0], centerCol},target);
+        }
+        else{
+            return true;
+        }
+    }
+    
+    // Smart method
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // A smart solution. The start point is the left-lower coner of this matrix.
+        // Corner Case. Judge if the matrix is null or the array in matrix is null
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
+        int startCol = 0;
+        int startRow = matrix.length - 1;
+        while(startCol < matrix[0].length && startRow > -1){
+            if(target > matrix[startRow][startCol]){
+                startCol ++;
+            }
+            else if(target < matrix[startRow][startCol]){
+                startRow --;
+            }
+            else{
+                return true;
+            }
+        }
+        return false;
+    }
