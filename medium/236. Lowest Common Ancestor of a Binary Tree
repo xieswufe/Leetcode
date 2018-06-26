@@ -1,0 +1,28 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // The solution of this problem is to find the TreeNode p or TreeNode q in root's subtree, so we can use
+        // divide and conquer method to solve it.
+        //Firstly, when the node's val equals to q's or p's val, since all of the nodes' values will be unique, we can make sure
+        // that the node we find is p or q, the return it.
+        // Time Complexity : O(n) Space Complexity: O(1)
+        if(root == null){
+            return null;
+        }
+        if(root.val == p.val || root.val == q.val){
+            return root;
+        }
+        TreeNode lef = lowestCommonAncestor(root.left,p,q);
+        TreeNode rig = lowestCommonAncestor(root.right,p,q);
+        if(lef != null && rig != null){
+            return root;
+        }
+        else if(lef != null){
+            return lef;
+        }
+        else if(rig != null){
+            return rig;
+        }
+        
+        return null;
+    }
+}
