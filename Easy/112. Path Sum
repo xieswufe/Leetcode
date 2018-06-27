@@ -1,0 +1,44 @@
+//stupid DFS method. Time complexity o(n) Space Complexity O(n)
+
+public boolean hasPathSum(TreeNode root, int sum) {
+        //Use stack to store the right roots of the tree. We can add the number along the left side first, if the summary is bigger than
+        // the given summary, then we can return to the parent and use the right child of the parent as the new iterative root.
+        //Firstly, check the corner case
+        if(root == null){
+            //Integer can be negative number
+            return false;
+        }
+        Stack<TreeNode> IteStack = new Stack<TreeNode>();
+        Stack<Integer> valueStack = new Stack<Integer>();
+        IteStack.push(root);
+        valueStack.push(root.val);
+        while(!IteStack.isEmpty()){
+            TreeNode Ite = IteStack.pop();
+            int value = valueStack.pop();
+            if(Ite.left == null && Ite.right == null && value == sum){
+                return true;
+            }
+            if(Ite.left != null){
+                IteStack.push(Ite.left);
+                valueStack.push(value + Ite.left.val);
+            }
+            if(Ite.right != null){
+                IteStack.push(Ite.right);
+                valueStack.push(value + Ite.right.val);
+            }
+        }
+
+        return false;
+    }
+    
+    //Divide and Conquer Method Time Complexity: O(n)
+    public boolean hasPathSum(TreeNode root, int sum) {
+        // Use Divide and Conquer method
+        if(root == null){
+            return false;
+        }
+        if(sum - root.val == 0 && root.left == null && root.right == null){
+            return true;
+        }
+        return hasPathSum(root.left,sum - root.val) || hasPathSum(root.right, sum - root.val);
+}
