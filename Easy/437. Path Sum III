@@ -1,0 +1,34 @@
+//Wrong solution. This method will result in repeat count in subtree. every suntree will be count more than one time
+public int pathSum(TreeNode root, int sum) {
+        return searchPath(root,sum,sum);
+    }
+    public int searchPath(TreeNode root, int curSum, int sum){
+        if(root == null){
+            return 0;
+        }
+        int count = 0;
+        if(root.val == curSum){
+            count = 1;
+        }
+        return searchPath(root.left,curSum-root.val,sum) + searchPath(root.right, curSum-root.val,sum) + searchPath(root.left,sum,sum) + searchPath(root.right,sum,sum) + count;
+    }
+  
+  //DFS solution
+  // when the tree is balanced binary tree, which means the height of the tree is log(n), the time complexity of the method is  O(nlogn).
+  // in the worst situation, the tree will be a linked list, in this situation , the time complexity will be O(N^2);
+  public int pathSum(TreeNode root, int sum) {
+        if(root == null){
+            return 0;
+        }
+        return searchPath(root,sum) + pathSum(root.left,sum) + pathSum(root.right,sum);
+    }
+    public int searchPath(TreeNode root, int curSum){
+        if(root == null){
+            return 0;
+        }
+        int count = 0;
+        if(root.val == curSum){
+            count = 1;
+        }
+        return searchPath(root.left,curSum - root.val) + searchPath(root.right,curSum - root.val) + count;
+    }
