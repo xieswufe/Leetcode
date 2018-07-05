@@ -1,0 +1,26 @@
+// Used a queue to implement level order traversal
+public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null){
+            return new ArrayList();
+        }
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        ArrayList<Integer> level_res = new ArrayList<Integer>();
+        Queue<TreeNode> support_queue = new LinkedList();
+        support_queue.offer(root);
+        while(!support_queue.isEmpty()){
+            int size = support_queue.size();
+            level_res = new ArrayList();
+            while(size-- > 0){
+                TreeNode tr = support_queue.poll();
+                level_res.add(tr.val);
+                if(tr.left != null){
+                    support_queue.add(tr.left);
+                }
+                if(tr.right != null){
+                    support_queue.add(tr.right);
+                }
+            }
+            res.add(level_res);
+        }
+        return res;
+    }
