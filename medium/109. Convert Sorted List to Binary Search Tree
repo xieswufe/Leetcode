@@ -1,0 +1,28 @@
+// Time Complexity: O(nlog(n))  Space Complexity: O(1)
+public TreeNode sortedListToBST(ListNode head) {
+        // if head is null, then return null
+        if(head == null){
+            return null;
+        }
+        // if the number of node is 1, then return that node
+        if(head.next == null){
+            return new TreeNode(head.val);
+        }
+        //Firstly, fast need to go 2 steps since we need to get the previous node of slow. in the while loop, the slow node means
+        // the previous step of current slow node. So after the loop, we need to move one more step of slow node.
+        ListNode fast = head.next.next;
+        ListNode slow = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        System.out.println("slow" + slow.val);
+        ListNode newHead = slow.next.next;
+        TreeNode root = new TreeNode(slow.next.val);
+        slow.next = null;
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(newHead);
+        return root;
+    }
+    
+  // 
