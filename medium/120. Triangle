@@ -1,0 +1,27 @@
+// menmorization + divide and conquer
+// Time Complexity(O(n^2))  Space Complexity O(n^2)
+class Solution {
+    int[][]  hash;
+    boolean[][] hashJudge;
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int h = triangle.size();
+        hash = new int[h][h];
+        hashJudge = new boolean[h][h];
+        return dfs(triangle,h,0,0);
+    }
+    
+    public int dfs(List<List<Integer>> triangle,int h, int x, int y){
+        if(y == h){
+            return 0;
+        }
+        if(hashJudge[x][y] == true){
+            return hash[x][y];
+        }
+        else{
+            int left = dfs(triangle,h,x,y+1);
+            int right = dfs(triangle,h,x+1,y+1);
+            hash[x][y] = Math.min(left,right) + triangle.get(y).get(x);
+            hashJudge[x][y] = true;
+            return hash[x][y];}
+    }
+}
