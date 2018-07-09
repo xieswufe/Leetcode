@@ -1,0 +1,62 @@
+// Based on Intuition  Time Complexity: O(n^2)  Space Complexity: O(n)
+
+ public int jump(int[] nums) {
+        // Time Complexity: O(n^2) Space Complexity: O(n)
+        if(nums == null){
+            return 0;
+        }
+        if(nums.length == 1){
+            return 0;
+        }
+        int len = nums.length;
+        int[] steps = new int[len];
+        // initialize
+        int farthest = nums[0];
+        int ini = 0;
+        while(ini <= farthest){
+            if(ini == len-1){
+                return 1;
+            }
+            steps[ini++] = 1;
+        }
+        for(int i = 0; i < len; i++){
+            if(i <= farthest && nums[i] + i > farthest){
+                int step = steps[i];
+                while(ini <= nums[i] + i){
+                    if(ini == len-1){
+                        return step + 1;
+                    }
+                    else{
+                        steps[ini++] = step+1;
+                    }
+                }
+                farthest = nums[i] + i;
+            }
+        }
+        return steps[len - 1];
+    }
+    
+    // Time Complexity: O(n) Space Complexity: O(1)
+    public int jump(int[] nums) {
+        // Time Complexity: O(n^2) Space Complexity: O(n)
+        if(nums == null){
+            return 0;
+        }
+        if(nums.length == 1){
+            return 0;
+        }
+        int len = nums.length;
+        int farthest = nums[0];
+        int curend = nums[0];
+        int steps = 1;
+        for(int i = 1; i < len; i++){
+            if(i > curend){
+                curend = farthest;
+                steps ++;
+            }
+            if(nums[i] + i > farthest){
+                farthest = nums[i] + i;
+            }
+        }
+        return steps;
+    }
