@@ -1,0 +1,22 @@
+//Time Complexity O(n) Space Complexity O(1)
+class Solution {
+    public boolean canJump(int[] nums) {
+        // In the current index, the maximum jump length is decided by the bigger one of( the current element and the last element minus         
+        // one). If the current element is zero(except it is in the last index), the result is false;
+        // check illegal case
+        if(nums == null){
+            return false;
+        }
+        if(nums.length == 1){
+            return true;
+        }
+        int len = nums.length - 1;
+        for(int i = 0; i < len; i++){
+            if(nums[i] == 0){
+                return false;
+            }
+            nums[i+1] = Math.max(nums[i+1], nums[i] - 1);
+        }
+        return true;
+    }
+}
