@@ -1,0 +1,32 @@
+//Time Complexity:O(n), Space Complexity: O(1)
+public ListNode partition(ListNode head, int x) {
+        if(head == null){
+            //check
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode cur = dummy;
+        // find the end of the smaller node and the start of the bigger node
+        while(cur.next != null && cur.next.val < x){
+            cur = cur.next;
+        }
+        ListNode smallEnd = cur;
+        ListNode largeStart = cur.next;
+        cur = largeStart;
+        while(cur != null && cur.next != null){
+            if(cur.next.val >= x){
+                cur = cur.next;
+            }
+            else{
+                ListNode smallNode = cur.next;
+                ListNode nexNode = cur.next.next;
+                cur.next = nexNode;
+                smallNode.next = largeStart;
+                smallEnd.next = smallNode;
+                smallEnd = smallEnd.next;
+            }
+        }
+        return dummy.next;
+        
+    }
