@@ -1,0 +1,38 @@
+Time Complexity: O（n^2）  Time limit exceed
+public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode endPoint = null;
+        dummy.next = head;
+        while(endPoint == null || !dummy.next.next.equals(endPoint)){
+            ListNode preIte = dummy;
+            ListNode Ite =  dummy.next;
+            ListNode lNode = dummy.next;
+            ListNode prel = dummy;
+            int max = lNode.val;
+            while(Ite != null){
+                if(endPoint != null && Ite.equals(endPoint)){
+                    break;
+                }
+                if(Ite.val >= max){
+                    max = Ite.val;
+                    prel = preIte;
+                    lNode = Ite;
+                }
+                Ite = Ite.next;
+                preIte = preIte.next;
+            }
+            if(lNode.equals(preIte)){
+                endPoint = lNode;
+                continue;
+            }
+            ListNode temp = lNode.next;
+            prel.next = temp;
+            preIte.next = lNode;
+            lNode.next = endPoint;
+            endPoint = lNode;
+        }
+        return dummy.next;
+    }
