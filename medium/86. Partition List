@@ -30,3 +30,35 @@ public ListNode partition(ListNode head, int x) {
         return dummy.next;
         
     }
+
+// A simple method
+public ListNode partition(ListNode head, int x) {
+        if(head == null){
+            //check edge case
+            return null;
+        }
+        ListNode leftDummy = new ListNode(1);
+        ListNode leftIte = leftDummy;
+        ListNode rightDummy = new ListNode(1);
+        ListNode rightIte = rightDummy;
+        while(head != null){
+            if(head.val < x){
+                leftIte.next = head;
+                leftIte = leftIte.next;
+            }
+            else{
+                rightIte.next = head;
+                rightIte = rightIte.next;
+            }
+            head = head.next;
+        }
+        
+        // attention, the linked list may become a linked cycle without the next step
+        rightIte.next = null; 
+        
+        leftIte.next = rightDummy.next;
+        
+        return leftDummy.next;
+        
+        
+    }
