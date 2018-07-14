@@ -1,0 +1,49 @@
+class Solution {
+    public ListNode sortList(ListNode head) {
+        // Merge Sort
+        if(head == null || head.next ==null){
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        dummy.next = splitList(head);
+        return dummy.next;
+    }
+    
+    public ListNode mergeList(ListNode leftHead, ListNode rightHead){
+        ListNode dummy = new ListNode(0);
+        ListNode curt = dummy;
+        while(leftHead != null || rightHead != null){
+            if(leftHead == null || (rightHead != null && (leftHead.val > rightHead.val))){
+                curt.next = rightHead;
+                rightHead =rightHead.next;
+                curt = curt.next;
+            }
+            else{
+                curt.next = leftHead;
+                leftHead = leftHead.next;
+                curt = curt.next;
+            }
+        }
+        curt.next = null;
+        return dummy.next;
+}
+    public ListNode splitList(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode fast = head.next;
+        ListNode slow = head;
+        
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // in the process of dividing and combining linked list, the head node could be change
+        ListNode rightHead = slow.next;
+        slow.next = null;
+        ListNode left = splitList(head);
+        ListNode right = splitList(rightHead);
+        return mergeList(left,right);
+    }
+}
