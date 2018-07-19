@@ -1,0 +1,104 @@
+class Solution {
+     public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        List<Integer> res = new ArrayList<Integer>();
+        // check edge cases     
+        if (root == null) {
+            return res;
+        }
+        TreeNode lowerBound = null;
+        TreeNode upperBound = null;
+         
+        // The next method uses root as a iterator to find the lowerBound and the upperBounder of the specific node, so we need to store 
+         // the value of the TreeNode root
+        TreeNode tree_root = root;
+        
+        while(root != null){
+            if (root.val <= target){
+                lowerBound = root;
+                root = root.right;
+            }
+            else{
+                upperBound = root;
+                root = root.left;
+            }
+        }
+        
+        int count = 1 ;
+        while(count++ <= k){
+            if(upperBound == null){
+                res.add(lowerBound.val);
+                lowerBound = getPredcessor(tree_root,lowerBound.val);
+                continue;
+            }
+            if(lowerBound == null){
+                res.add(upperBound.val);
+                upperBound = getSucessor(tree_root,upperBound.val);
+                continue;
+            }
+            double lowerDiff = target - lowerBound.val;
+            double upperDiff = upperBound.val - target;
+            if(lowerDiff > upperDiff){
+                res.add(upperBound.val);
+                upperBound = getSucessor(tree_root,upperBound.val);
+            }
+            else{
+                res.add(lowerBound.val);
+                lowerBound = getPredcessor(tree_root,lowerBound.val);
+            }
+        }
+        return res;
+        
+    }
+    
+    public TreeNode getPredcessor(TreeNode root, int nodeVal){
+        if(root == null) {
+            return null;
+        }
+        TreeNode pre = null;
+        while (root.val != nodeVal){
+            if(root.val > nodeVal){
+                root = root.left;
+            }
+            else{
+                pre = root;
+                root = root.right;
+            }
+        }
+        
+        if(root.left == null){
+            return pre;
+        }
+        
+        root = root.left;
+        while(root.right != null){
+            root = root.right;
+        }
+        return root;
+    }
+    
+    public TreeNode getSucessor(TreeNode root, int nodeVal){
+        if (root == null) {
+            return null;
+        }
+        TreeNode succ = null;
+        while (root.val != nodeVal){
+            if(root.val > nodeVal){
+                succ = root;
+                root = root.left;
+            }
+            else{
+                root = root.right;
+            }
+        }
+        
+        if(root.right == null){
+            return succ;
+        }
+        
+        root = root.right;
+        while(root.left != null){
+            root = root.left;
+        }
+        return root;
+    }
+}
