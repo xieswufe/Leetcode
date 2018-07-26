@@ -1,0 +1,51 @@
+// The first solution
+public void sortColors(int[] nums) {
+        // check corner cases
+        if (nums == null || nums.length == 0 || nums.length == 1) {
+            return;
+        }
+        int zero_point = 0;
+        int one_point = 0;
+        int two_point = nums.length - 1;
+        
+        while (one_point <= two_point) {
+            if (nums[one_point] == 0) {
+                int temp = nums[zero_point];
+                nums[zero_point] = nums[one_point];
+                nums[one_point] = temp;
+                zero_point ++;
+                one_point ++;
+                continue;
+            }
+            if(nums[one_point] == 2) {
+                int temp = nums[two_point];
+                nums[two_point] = nums[one_point];
+                nums[one_point] = temp;
+                two_point --;
+                continue;
+            }
+            one_point ++;
+        }
+    }
+    
+    //another three-pointer way
+    public void sortColors(int[] nums) {
+        // check corner cases
+        if (nums == null || nums.length == 0 || nums.length == 1) {
+            return;
+        }
+        int zero_pointer = -1;
+        int one_pointer = -1;
+        int two_pointer = -1;
+        
+        while (two_pointer < nums.length -1 ) {
+            int temp = nums[two_pointer + 1];
+            nums[++two_pointer] = 2;
+            if (temp < 2) {
+                nums[++one_pointer] = 1;
+            }
+            if (temp == 0) {
+                nums[++zero_pointer] = 0;
+            }
+        }
+    }
