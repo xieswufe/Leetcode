@@ -1,0 +1,89 @@
+//BFS Solution 
+// Time Compleixty: O(N+M) Space Compleixty: O(N+M)
+
+public boolean validTree(int n, int[][] edges) {
+        // check corner cases 
+        if (n <= 1 || edges == null) {
+            return true;
+        }
+        
+        if (edges.length != n -1) {
+            return false;
+        }
+        // build node and edges Map
+        Map<Integer,List<Integer>> graph = new HashMap<Integer,List<Integer>>();
+        // input node
+        for (int i = 0; i < n; i++) {
+            graph.put(i,new ArrayList<Integer>());
+        }
+        // build edges and count indegree
+        for (int i = 0; i < edges.length; i++) {
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+        }
+        int count = 0;
+        Queue<Integer> bfs = new LinkedList<Integer>();
+        Set<Integer> hs = new HashSet<Integer>();
+        bfs.offer(0);
+        hs.add(0);
+        while(!bfs.isEmpty()) {
+            int curt = bfs.poll();
+            count ++;
+            for (int item : graph.get(curt)) {
+                if (hs.contains(item)) {
+                    continue;
+                }
+                      bfs.offer(item);
+                      hs.add(item);
+            }
+        }
+        return count == n;    
+    }
+    
+    //Graph Based on DFS Solution
+    public boolean validTree(int n, int[][] edges) {
+        // check corner cases 
+        if (n <= 1) {
+            return true;
+        }
+        
+        if (edges.length != n -1) {
+            return false;
+        }
+        // build node and edges Map
+        Map<Integer,List<Integer>> graph = new HashMap<Integer,List<Integer>>();
+        // input node
+        for (int i = 0; i < n; i++) {
+            graph.put(i,new ArrayList<Integer>());
+        }
+        // build edges and count indegree
+        for (int i = 0; i < edges.length; i++) {
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+        }
+        boolean[] visited = new boolean[n];
+        if(!dfs(graph,visited,0,-1)) {
+            return false;
+        }
+        
+        for (int i = 0 ;  i < visited.length; i++) {
+            if (!visited[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean dfs(Map<Integer,List<Integer>> graph, boolean[] visited, int cur, int prev) {
+        if (visited[cur]) {
+            return false;
+        }
+        visited[cur] = true;
+        
+        for (int item : graph.get(cur)) {
+            if (!(prev == item) && !dfs(graph,visited,item,cur)) {
+                return false;
+            }
+        }
+        return true;
+    }
