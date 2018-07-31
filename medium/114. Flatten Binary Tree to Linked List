@@ -1,0 +1,19 @@
+ // traverse
+     // use pre-order traversal  we need to notice that the node which is used as an iterator can not be used as the parameters of a new helper method, since it is hard for us to pass the updated reference of the node
+    public TreeNode node = null;
+    public void flatten(TreeNode root) {
+        // write your code here
+         if (root == null) {
+        return;
+    }
+    TreeNode left = root.left;
+    TreeNode right = root.right;
+
+    if (node != null) {
+        node.left = null;
+        node.right = root;
+    }
+    node = root;
+    flatten(left);
+    flatten(right);
+    }
