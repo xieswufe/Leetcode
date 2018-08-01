@@ -1,0 +1,65 @@
+// dfs + memorization solution 
+// since the purpose of this problem is count all possible solutions, so we can also use dynamic programming solution
+// the next method is programming solution
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        // check illegal case
+        if (nums == null || nums.length == 0 || target <= 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int[] value = new int[target + 1];
+        boolean[] visited = new boolean[target + 1];
+        int res = dfs(nums,target,visited,value);
+        return res;
+    }
+    
+    private int dfs(int[] nums, int target,boolean[] visited, int[] value) {
+        int count = 0;
+        if (nums[0] > target) {
+            return 0;
+        }
+        if (visited[target]) {
+            return value[target];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                count += 1;
+                break;
+            }
+            if (nums[i] > target) {
+                break;
+            }
+            count += dfs(nums, target-nums[i],visited,value);
+        }
+        visited[target] = true;
+        value[target] = count;
+        return count;
+    }
+}
+
+//DP solution Time complexity is O(n * k), k = num.length
+public class Solution {
+    /**
+     * @param nums: an integer array and all positive numbers, no duplicates
+     * @param target: An integer
+     * @return: An integer
+     */
+     public int backPackVI(int[] nums, int target) {
+        // check illegal case
+        // dynamic programming
+        if (nums == null || nums.length == 0 || target <= 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int[] res = new int[target + 1];
+        res[0] = 1;
+        for (int i = 1; i < res.length; i++) {
+            for(int j = 0; j < nums.length && i - nums[j] >= 0; j++) {
+                res[i] += res[i - nums[j]];
+            }
+        }
+        return res[target];
+    }
+    
+}
