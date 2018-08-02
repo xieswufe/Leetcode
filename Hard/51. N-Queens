@@ -1,0 +1,67 @@
+//Origin Method:  Time Complexity: O(N^N * N) Space Complexity: O(N^2)
+
+public List<List<String>> solveNQueens(int n) {
+        List<List<String>> results = new ArrayList<List<String>>();
+        if (n <= 0) {
+            return results;
+        }
+        int[][] banCount = new int[n][n];
+        StringBuilder temp = new StringBuilder("");
+        for (int i = 0; i < n; i++) {
+            temp.append(".");
+        }
+        String levelTemp = temp.toString();
+        dfs(n,0,levelTemp, new ArrayList<String>(), results,banCount);
+        return results;
+    }
+    
+    private void dfs(int n,int level,String levelTemp,List<String> subset, List<List<String>> results, int[][] banCount) {
+        if (level == n) {
+            results.add(new ArrayList<String>(subset));
+            return;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            StringBuilder sb = new StringBuilder(levelTemp);
+            
+            if (banCount[level][i] == 0) {
+                addQueen(level,i,n,1,banCount);
+                sb.replace(i,i+1,"Q");
+                subset.add(sb.toString());
+                dfs(n,level + 1, levelTemp,subset,results,banCount);
+                addQueen(level,i,n,-1,banCount);
+                subset.remove(subset.size() - 1);
+            }
+        }
+    }
+    
+    private void addQueen(int level, int i,int n, int change,int[][] banCount) {
+        for (int y = level + 1; y < n; y ++) {
+            banCount[y][i] += change;
+        }
+       int iterator_x = i + 1;
+       int iterator_y = level + 1;
+        while (checkBounder(iterator_y,iterator_x,n)) {
+            banCount[iterator_y][iterator_x] += change;
+            iterator_y++;
+            iterator_x++;
+        }
+        iterator_x = i - 1;
+        iterator_y = level + 1;
+        while (checkBounder(iterator_y,iterator_x,n)) {
+            banCount[iterator_y][iterator_x] += change;
+            iterator_y++;
+            iterator_x--;
+        }
+    }
+    
+    
+    private boolean checkBounder(int level, int i, int n) {
+        if (level >=0 && level < n && i >= 0 && i <n) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    
