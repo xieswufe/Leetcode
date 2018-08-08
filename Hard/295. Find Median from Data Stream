@@ -1,0 +1,92 @@
+// TLE solution
+class MedianFinder {
+     // use arraylist
+    // when adding num, use merge sort to sort the nums, so the time complexity of findMedian is O(1) 
+    // the time compleixty of adding num is O(nlogn)
+    /** initialize your data structure here. */
+    List<Integer> data;
+    public MedianFinder() {
+        data = new ArrayList<Integer>();
+    }
+    
+    public void addNum(int num) {
+        data.add(num);
+        mergesort(0,data.size() - 1, data);
+    }
+    
+    public double findMedian() {
+        if (data.size() <= 1) {
+            return data.get(0);
+        }
+        int mid = data.size() / 2;
+        if (data.size() % 2 == 0) {
+            return (double)(data.get(mid) + data.get(mid-1)) / 2;
+        }
+        return data.get(mid);
+    }
+    
+    public void mergesort(int start, int end, List<Integer> data) {
+        if (start >= end) {
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        mergesort(start,mid,data);
+        mergesort(mid + 1,end,data);
+        merge(start,mid,mid + 1,end,data);
+    }
+    
+    public void merge(int left_start, int left_end, int right_start, int right_end, List<Integer> data) {
+        List<Integer> sort_array = new ArrayList<Integer>();
+        int left_ite = left_start;
+        int right_ite = right_start;
+        while (left_ite <= left_end || right_ite <= right_end) {
+            if (left_ite > left_end || (right_ite <= right_end && data.get(right_ite) <= data.get(left_ite))) {
+                sort_array.add(data.get(right_ite));
+                right_ite ++;
+            }
+            else {
+                sort_array.add(data.get(left_ite));
+                left_ite ++;
+            }
+        }
+        for (int i = 0; i < sort_array.size(); i++) {
+            data.set(left_start + i, sort_array.get(i));
+        }
+    }
+}
+
+// ac solution add: o(log(n)) find:o(1)
+class MedianFinder {
+     // use arraylist
+    // when adding num, use merge sort to sort the nums, so the time complexity of findMedian is O(1) 
+    /** initialize your data structure here. */
+    Queue<Integer> left;
+    Queue<Integer> right;
+    public MedianFinder() {
+        left = new PriorityQueue<Integer>(Collections.reverseOrder());
+        right = new PriorityQueue<Integer>();
+    }
+    
+    public void addNum(int num) {
+        if (left.size() == 0) {
+            left.offer(num);
+            return;
+        }
+        left.offer(num);
+        right.offer(left.poll());
+        if (right.size() > left.size()) {
+            left.offer(right.poll());
+        }
+    }
+    
+    public double findMedian() {
+        if (left.size() > right.size()) {
+            return left.peek();
+        }
+        else {
+            return (double)(left.peek() + right.peek()) / 2;
+        }
+    }
+    
+
+}
