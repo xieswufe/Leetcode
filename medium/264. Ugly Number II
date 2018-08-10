@@ -1,0 +1,31 @@
+// time complexity: O(n)
+    public int nthUglyNumber(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int fact2 = 2;
+        int fact3 = 3;
+        int fact5 = 5;
+        
+        int fact2_i = 0;
+        int fact3_i = 0;
+        int fact5_i = 0;
+        int i = 1;
+        while (i < n) {
+            int minNum = Math.min(Math.min(fact2,fact3),fact5);
+            ugly[i] = minNum;
+            if (minNum == fact2) {
+                fact2 = 2 * ugly[++fact2_i];
+            }
+            if (minNum == fact3) {
+                fact3 = 3 * ugly[++fact3_i];
+            }
+            if (minNum == fact5) {
+                fact5 = 5 * ugly[++fact5_i];
+            }
+            i++;
+        }
+        return ugly[n-1];
+    }
