@@ -1,0 +1,69 @@
+class RandomizedCollection {
+     Map<Integer,List<Integer>> num2pos;
+     List<NumIndex> numbers;
+     Random rand;
+    /** Initialize your data structure here. */
+    public RandomizedCollection() {
+        num2pos = new HashMap<Integer,List<Integer>>();
+        numbers = new ArrayList<NumIndex>();
+        rand = new Random();
+    }
+    
+    /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+    public boolean insert(int val) {
+        boolean containsNum = false;
+        if (!num2pos.containsKey(val)) {
+            containsNum = true;
+            num2pos.put(val, new ArrayList<Integer>());
+        }
+        List<Integer> index_union = num2pos.get(val);
+        NumIndex curt = new NumIndex(val,index_union.size());
+        numbers.add(curt);
+        index_union.add(numbers.size() - 1);
+        num2pos.put(val,index_union);
+        
+        return containsNum;
+    }
+    
+    /** Removes a value from the collection. Returns true if the collection contained the specified element. */
+    public boolean remove(int val) {
+        if (!num2pos.containsKey(val)) {
+            return false;
+        }
+        List<Integer> index_union = num2pos.get(val);
+        int index = index_union.get(index_union.size() - 1);
+        NumIndex tail = numbers.get(numbers.size() -1);
+        
+        // we need update the index first and then remove the tail value of the arraylist
+        // because the node we want to remove from the list may be the last node, so if we remove the last
+        //node first and then update the list, it may cause null pointer error
+        numbers.set(index,tail);
+        numbers.remove(numbers.size() - 1);
+        num2pos.get(tail.number).set(tail.index,index);
+        index_union.remove(index_union.size() - 1);
+        if (index_union.size() == 0) {
+            num2pos.remove(val);
+        }
+        else {
+            num2pos.put(val,index_union);
+        }
+        return true;
+    }
+    
+    /** Get a random element from the collection. */
+    public int getRandom() {
+        int ranInt = rand.nextInt(numbers.size());
+        return numbers.get(ranInt).number;
+    }
+}
+
+class NumIndex {
+    int number;
+    int index;
+    
+    public NumIndex(int number, int index) {
+        this.number = number;
+        this.index = index;
+    }
+}
+
