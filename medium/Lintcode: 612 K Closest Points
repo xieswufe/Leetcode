@@ -1,0 +1,49 @@
+// Time Complexity: O(nlogk) Space Complexity: O(n)
+
+public class Solution {
+    /**
+     * @param points: a list of points
+     * @param origin: a point
+     * @param k: An integer
+     * @return: the k closest points
+     */
+    Point origin1;
+    public Point[] kClosest(Point[] points, Point origin, int k) {
+        // write your code here
+        // check corner cases 
+        Point[] results = new Point[k];
+        List<Point> res_list = new ArrayList<Point>();
+        origin1 = origin;
+        PriorityQueue<Point> distance = new PriorityQueue<Point>(k+1, new Comparator<Point>() {
+            public int compare(Point a, Point b) {
+                int diff = getDistance(b,origin1) - getDistance(a,origin1);
+                if (diff != 0) {
+                    return diff;
+                }
+                if (diff == 0) {
+                    diff = b.x - a.x;
+                }
+                if (diff == 0) {
+                    diff = b.y - a.y;
+                }
+                return diff;
+                
+            }
+        });
+       for (int i = 0; i < points.length; i++) {
+           distance.add(points[i]);
+           if (distance.size() > k) {
+               distance.poll();
+           }
+       }
+       for (int i = k-1; i >=0; i--) {
+           results[i] = distance.poll();
+       }
+       return results;
+    }
+    
+    public int getDistance(Point a, Point b) {
+        return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+    }
+    
+}
