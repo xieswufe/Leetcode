@@ -1,0 +1,32 @@
+// solution 1 : use heap
+
+public ListNode mergeKLists(ListNode[] lists) {
+        // use heap to get the minimum item
+        // check the corner cases 
+        //Time complexity: O(n(logn))
+        if (lists == null) {
+            return null;
+        }
+        // define a new priority queue
+        PriorityQueue<ListNode> minheap = new PriorityQueue<ListNode>(new Comparator<ListNode>() {
+            public int compare(ListNode l1, ListNode l2) {
+                return l1.val - l2.val;
+            }
+        });
+        // define a dummy node
+        ListNode dummy = new ListNode(0);
+        ListNode iterator = dummy;
+        for (ListNode node : lists) {
+            if (node != null) {
+                minheap.offer(node);
+            }
+        }
+        while (!minheap.isEmpty()) {
+            iterator.next = minheap.poll();
+            iterator = iterator.next;
+            if (iterator.next != null) {
+                minheap.offer(iterator.next);
+            }
+        }
+        return dummy.next;
+    }
