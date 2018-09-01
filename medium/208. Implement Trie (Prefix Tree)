@@ -1,0 +1,66 @@
+// implement a trie tree by hashmap
+
+class Trie {
+    private class TrieNode {
+        Map<Character, TrieNode> children;
+        boolean hasWord;
+        public TrieNode() {
+            children = new HashMap<>();
+            hasWord = false;
+        }
+    }
+    /** Initialize your data structure here. */
+    
+    TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        if (word == null || word.length() == 0) {
+            return;
+        }
+        char[] letterlist = word.toCharArray();
+        TrieNode curt = root;
+        for (char ch : letterlist) {
+            if (!curt.children.containsKey(ch)) {
+                curt.children.put(ch, new TrieNode());
+            }
+            curt = curt.children.get(ch);
+        }
+        curt.hasWord = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        if (word == null) {
+            return false;
+        }
+        TrieNode curt = root;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (!curt.children.containsKey(ch)) {
+                return false;
+            }
+            curt = curt.children.get(ch);
+        }
+        return curt.hasWord;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        TrieNode curt = root;
+        if (prefix == null) {
+            return true;
+        }
+        for (int i = 0; i < prefix.length(); i++) {
+            char ch = prefix.charAt(i);
+            if (!curt.children.containsKey(ch)) {
+                return false;
+            }
+            curt = curt.children.get(ch);
+        }
+        return true;
+    }
+}
