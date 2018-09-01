@@ -1,0 +1,85 @@
+ //use hashmap to store string
+ class Solution {
+    public List<List<Integer>> palindromePairs(String[] words) {
+        List<List<Integer>> result =  new ArrayList<>();
+        if (words == null) {
+            return result;
+        }
+        
+        // create the hashmap and the hashset(only include index)
+        Map<String,Integer> word2index = new HashMap<String,Integer>();
+        Set<Integer> palinSet = new HashSet<Integer>();
+        
+        // initiate the map and the hash set
+        for (int i = 0; i < words.length; i++) {
+            word2index.put(words[i],i);
+            if (isPalin(words[i])) {
+                palinSet.add(i);
+            }
+        }
+        
+        //iterate words set
+        for (int i = 0; i < words.length; i++) {
+            // check corner cases 
+            if (words[i].length() == 0) {
+                for (int item : palinSet) {
+                    if (item != i) {
+                    result.add(Arrays.asList(i,item));
+                    result.add(Arrays.asList(item,i));
+                    }
+            }
+            continue;
+            }
+        // find if s1.reverse is in the word list
+            String curt = words[i];
+           if (word2index.containsKey(reverse(curt)) && word2index.get(reverse(curt)) != i) {
+               result.add(Arrays.asList(i,word2index.get(reverse(curt))));
+            }
+            for (int cut = 0; cut < curt.length() - 1; cut ++) {
+                String left = curt.substring(0,cut + 1);
+                String right = curt.substring(cut + 1);
+                if (isPalin(left)) {
+                    if (word2index.containsKey(reverse(right))) {
+                        if (word2index.get(reverse(right))  == i) {
+                            continue;
+                        }
+                        result.add(Arrays.asList(word2index.get(reverse(right)),i));
+                    }
+                }
+                if (isPalin(right)) {
+                    if (word2index.containsKey(reverse(left))) {
+                        if (word2index.get(reverse(left)) == i) {
+                            continue;
+                        }
+                        result.add(Arrays.asList(i,word2index.get(reverse(left))));
+                    }
+                }  
+            }
+    }
+        return result;
+    }
+    
+    public boolean isPalin(String s) {
+        if (s == null || s.length() <= 1) {
+            return true;
+        }
+        int start = 0;
+        int end = s.length() - 1;
+        while (start <= end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start ++;
+            end --;
+        }
+        return true;
+    }
+    
+    public String reverse(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+        StringBuilder sb = new StringBuilder(s);
+        return sb.reverse().toString();
+    }
+}
