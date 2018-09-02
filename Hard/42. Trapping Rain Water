@@ -1,0 +1,82 @@
+// DP solution
+//Time Complexity: O(n) Space Complexity: O(n)
+public int trap(int[] height) {
+        // check corner cases 
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        // store left_max and right_max array for each element in the height
+        int[] left_max = new int[height.length];
+        int[] right_max = new int[height.length];
+        
+        // construct the left_max array
+        left_max[0] = height[0];
+        right_max[height.length - 1] = height[height.length - 1];
+        for (int i = 1; i < height.length; i++) {
+            left_max[i] = Math.max(height[i],left_max[i-1]);
+        }
+        for (int i = height.length - 2; i >= 0; i--) {
+            right_max[i] = Math.max(height[i],right_max[i+1]);
+        }
+        
+        // iterate the array to sum the contain water
+        int sum_water = 0;
+        for (int i = 0; i < height.length; i++) {
+            sum_water += Math.min(left_max[i],right_max[i]) - height[i];
+        }
+        return sum_water;
+    }
+    
+    // stack: store the left side 
+    // Time Complexity: O(N)
+    public int trap(int[] height) {
+        // check corner cases 
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        // stack solution, use stack to store left bars,the top of stack is the minimum value of the left side
+        // once height[i] is bigger than the value, which means the area between them can be used to trap water
+        Stack<Integer> left = new Stack<Integer>();
+        int poi = 0; // declare the pointer
+        int trap_water = 0;
+        while (poi < height.length) {
+            if (left.isEmpty() || height[left.peek()] >= height[poi]) {
+                left.push(poi++);
+            }
+            else {
+                int bottom = left.pop(); // after this statement, we need to check the size of stack, since the stack maybe 1
+                int height_diff = left.isEmpty() ? 0 : (Math.min(height[left.peek()],height[poi]) - height[bottom]);
+                int water = 0;
+                if (height_diff != 0) { 
+                   water =  height_diff * (poi - left.peek() - 1);
+                }
+                trap_water += water;
+            }
+        }
+        return trap_water;
+    }
+    
+    // Two pointer(based on DP method)
+    public int trap(int[] height) {
+        // check corner cases 
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        // two pointer
+        int left = 0;
+        int right = height.length - 1;
+        int left_max = 0;
+        int right_max = 0;
+        int trap_water = 0;
+        while (left < right) {
+            if (height[left] <= height[right]) {
+                left_max = Math.max(left_max,height[left]);
+                trap_water += left_max - height[left++];
+            }
+            else {
+                right_max = Math.max(right_max,height[right]);
+                trap_water += right_max - height[right--];
+            }
+        }
+        return trap_water;
+    }
