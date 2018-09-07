@@ -1,0 +1,53 @@
+public ListNode rotateRight(ListNode head, int k) {
+        // use a map to store every node
+        if (head == null || head.next == null || k == 0) {
+            return head;
+        }
+        Map<Integer,ListNode> pos2node = new HashMap<Integer,ListNode>();
+        ListNode ite = head;
+        int pos = 1;
+        while (ite != null) {
+            pos2node.put(pos,ite);
+            ite = ite.next;
+            pos ++;
+        }
+        pos --;
+        ListNode end = pos2node.get(pos);
+        // pos stands for the length of the linkedlist
+        k = k % pos;
+        if (k == 0) {
+            return head;
+        }
+        ListNode newhead = pos2node.get(pos-k+1);
+        ListNode newEnd = pos2node.get(pos-k);
+        end.next = head;
+        newEnd.next = null;
+        return newhead;
+    }
+    
+    // another solution
+    public ListNode rotateRight(ListNode head, int k) {
+        // use a map to store every node
+        if (head == null || head.next == null || k == 0) {
+            return head;
+        }
+
+        ListNode ite = head;
+        int pos = 1;
+        while (ite.next != null) {
+            ite = ite.next;
+            pos ++;
+        }
+        // pos stands for the length of the linkedlist
+        k = k % pos;
+        if (k == 0) {
+            return head;
+        }
+        ite.next = head;
+        for (int i = 1 ; i < pos - k; i++) {
+            head = head.next;
+        }
+        ListNode newHead = head.next;
+        head.next = null;
+        return newHead;
+    }
