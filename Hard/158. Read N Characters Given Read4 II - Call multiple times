@@ -1,0 +1,32 @@
+public class Solution extends Reader4 {
+    /**
+     * @param buf destination buffer
+     * @param n maximum number of characters to read
+     * @return the number of characters read
+     */
+
+    int lastPoi = 4;
+    int endPoi = Integer.MAX_VALUE;
+    char[] lastChar = new char[4];
+    boolean iseof = false;
+    public int read(char[] buf, int n) {
+        int curtPoi = 0;
+        int count = 0;
+        while (lastPoi <= endPoi && lastPoi <= 3 && curtPoi < n) {
+            buf[curtPoi ++] = lastChar[lastPoi++];
+        }
+        while (curtPoi < n && !iseof) {
+             count = read4(lastChar);
+            if (count < 4) {
+                iseof = true;
+                endPoi = count - 1;
+            }
+            count = Math.min(count, n - curtPoi);
+            for (int i = 0; i < count; i++) {
+                buf[curtPoi ++] = lastChar[i];
+            }
+        }
+        lastPoi = (count == 0)?lastPoi:count;
+        return curtPoi;
+    }
+}
