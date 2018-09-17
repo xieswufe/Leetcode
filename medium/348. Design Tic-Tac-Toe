@@ -1,0 +1,62 @@
+class TicTacToe {
+    // a fantastic solution。 use 1 to stand for player 1, use -1 to stand for player 2, if player2 place one step on player1's line
+    // the absolute total count will always be smaller than winCount; 
+     Map<String,Integer> index2count;
+    Map<String,Integer> index2player;
+     int winCount;
+     int totalStep;
+    /** Initialize your data structure here. */
+    public TicTacToe(int n) {
+        winCount = n;
+        index2count = new HashMap<String,Integer>();
+        index2player = new HashMap<String,Integer>();
+        totalStep = 0;
+    }
+    
+    /** Player {player} makes a move at ({row}, {col}).
+        @param row The row of the board.
+        @param col The column of the board.
+        @param player The player, can be either 1 or 2.
+        @return The current winning condition, can be either:
+                0: No one wins.
+                1: Player 1 wins.
+                2: Player 2 wins. */
+    public int move(int row, int col, int player) {
+        String colKey = "";
+        String rowKey = "";
+        if (totalStep == winCount * winCount) {
+            return 0;
+        }
+        if (row == col) {
+            String key = "left";
+            if (updateCount(key,player) == winCount) {
+                return player;
+            }
+        }
+        if (row + col == winCount-1) {
+            String key = "right";
+            if (updateCount(key,player) == winCount) {
+                return player;
+            }
+        }
+        rowKey = "row" + row;
+        if (updateCount(rowKey,player) == winCount) {
+                return player;
+            }
+        colKey = "col" + col;
+        if (updateCount(colKey,player) == winCount) {
+                return player;
+            }
+        totalStep ++;
+        return 0;
+    }
+    public int updateCount(String key, int player) {
+        int count = 0;
+        if (!(index2player.containsKey(key) && index2player.get(key) != player)) {
+                count = index2count.getOrDefault(key,0) + 1;
+                index2count.put(key,count);
+                index2player.put(key,player);
+           }
+        return count;
+    }
+}
