@@ -1,0 +1,55 @@
+Time: O(n)
+class Solution {
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        List<Integer> res = new ArrayList<Integer>();
+        double sysaxis = a== 0?Integer.MIN_VALUE : -b / (double)(2 * a) ;
+        int left = 0;
+        int right = 0;
+        while (right < nums.length && nums[right] < sysaxis) {
+            right ++;
+        }
+        left = right - 1;
+        while (left >= 0 || right < nums.length) {
+            
+            if (right >= nums.length) {
+                addNum(res, nums[left--],  a,  b,  c);
+                continue;
+            }
+            else if (left < 0) {
+                addNum(res, nums[right++],  a,  b,  c);
+                continue;
+            }
+            else {
+                double leftdiff = sysaxis - (double)nums[left];
+                double rightdiff = (double)nums[right] - sysaxis;
+                if (leftdiff >= rightdiff) {
+                    addNum(res, nums[right++],  a,  b,  c); 
+                }
+                else {
+                    addNum(res, nums[left--],  a,  b,  c); 
+                }
+            }
+        }
+        int[] result = new int[res.size()];
+        for (int i = 0; i < result.length; i++) {
+                    result[i] = res.get(i);
+          }
+        return result;
+    }
+    private void addNum(List<Integer> res,int x, int a, int b, int c) {
+        if (a == 0) {
+            if (b < 0) {
+                res.add(0,b*x + c);
+            }
+            else {
+                res.add(b*x + c);
+            }
+        }
+        else if (a > 0) {
+            res.add(a*x*x + b*x + c);
+        }
+        else {
+            res.add(0, a*x*x + b*x + c);
+        }
+    }
+}
